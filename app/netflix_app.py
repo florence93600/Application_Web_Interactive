@@ -18,7 +18,7 @@ st.title("Dashboard Netflix - CSV intégré au projet")
 # -----------------------------
 # BASE_DIR = dossier où se trouve ce fichier netflix_app.py
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = BASE_DIR / "data" / "Netflix Datasets Evaluation MS Excel.csv"
+DATA_PATH = BASE_DIR / "data" / "netflix_data.db"
 
 st.sidebar.header("Données")
 st.sidebar.write(f"Fichier utilisé : `{DATA_PATH}`")
@@ -26,7 +26,7 @@ st.sidebar.write(f"Fichier utilisé : `{DATA_PATH}`")
 # Lecture du CSV (sans upload utilisateur)
 df_raw = pd.read_csv(DATA_PATH)
 
-st.sidebar.success("CSV chargé depuis le projet.")
+st.sidebar.success("Connecté à DuckDB")
 st.write("Aperçu des données brutes :")
 st.dataframe(df_raw.head(), use_container_width=True)
 
@@ -39,11 +39,11 @@ con = duckdb.connect(database=":memory:")
 df = df_raw.drop_duplicates(subset=["show_id"])
 
 # Création de la table netflix dans DuckDB
-con.execute("DROP TABLE IF EXISTS netflix")
+con.execute("DROP TABLE IF EXISTS netflix_data")
 con.register("netflix_df", df)
-con.execute("CREATE TABLE netflix AS SELECT * FROM netflix_df")
+con.execute("CREATE TABLE netflix_data AS SELECT * FROM netflix_df")
 
-TABLE_NAME = "netflix"
+TABLE_NAME = "netflix_data"
 
 # -----------------------------
 # 3) LISTES POUR LES FILTRES
