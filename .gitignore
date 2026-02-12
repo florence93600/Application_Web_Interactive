@@ -1,6 +1,15 @@
-__pycache__/
+# --- Environnements virtuels ---
 .venv/
-*.db
+venv/
+
+# --- Python ---
+__pycache__/
 *.pyc
-.env
+
+# --- Bases de données ---
+*.db
+data/*.db
+
+# --- Données ---
 data/
+data_csv/
